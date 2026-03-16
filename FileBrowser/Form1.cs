@@ -1,10 +1,12 @@
+using SixLabors.ImageSharp;
+
 namespace FileBrowser
 {
     public partial class Form1 : Form
     {
         private static readonly HashSet<string> ImageExtensions = new(StringComparer.OrdinalIgnoreCase)
         {
-            ".jpg", ".jpeg", ".jfif", ".png", ".bmp", ".gif", ".tiff", ".tif", ".ico"
+            ".jpg", ".jpeg", ".jfif", ".png", ".bmp", ".gif", ".tiff", ".tif", ".webp", ".ico"
         };
 
         private readonly List<string> _imagePaths = [];
@@ -61,9 +63,23 @@ namespace FileBrowser
 
             pictureBox.Image?.Dispose();
 
-            var bytes = File.ReadAllBytes(_imagePaths[_currentIndex]);
-            var ms = new MemoryStream(bytes);
-            pictureBox.Image = Image.FromStream(ms);
+            var filePath = _imagePaths[_currentIndex];
+            MemoryStream ms;
+
+            if (string.Equals(Path.GetExtension(filePath), ".webp", StringComparison.OrdinalIgnoreCase))
+            {
+                ms = new MemoryStream();
+                using var img = SixLabors.ImageSharp.Image.Load(filePath);
+                img.SaveAsPng(ms);
+                ms.Position = 0;
+            }
+            else
+            {
+                var bytes = File.ReadAllBytes(filePath);
+                ms = new MemoryStream(bytes);
+            }
+
+            pictureBox.Image = System.Drawing.Image.FromStream(ms);
 
             UpdateStatus();
         }

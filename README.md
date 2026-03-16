@@ -12,16 +12,17 @@ A lightweight Windows desktop application for browsing and viewing images within
 
 ## Supported Formats
 
-| Format | Extensions          |
-|--------|---------------------|
+| Format | Extensions               |
+|--------|--------------------------|
 | JPEG   | `.jpg`, `.jpeg`, `.jfif` |
-| PNG    | `.png`              |
-| BMP    | `.bmp`              |
-| GIF    | `.gif`              |
-| TIFF   | `.tiff`, `.tif`     |
-| ICO    | `.ico`              |
+| PNG    | `.png`                   |
+| BMP    | `.bmp`                   |
+| GIF    | `.gif`                   |
+| TIFF   | `.tiff`, `.tif`          |
+| WebP   | `.webp`                  |
+| ICO    | `.ico`                   |
 
-> **Note:** These are the formats natively supported by GDI+ (`System.Drawing`). WebP and other modern formats are not supported.
+> **Note:** Most formats are handled natively by GDI+ (`System.Drawing`). WebP support is provided via [SixLabors.ImageSharp](https://github.com/SixLabors/ImageSharp).
 
 ## Prerequisites
 
