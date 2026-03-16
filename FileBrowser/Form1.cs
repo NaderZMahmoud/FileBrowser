@@ -91,12 +91,16 @@ namespace FileBrowser
 
             if (_imagePaths.Count == 0)
             {
+                txtImageNumber.Text = "";
+                txtImageNumber.Enabled = false;
                 lblStatus.Text = "No images found.";
             }
             else
             {
+                txtImageNumber.Enabled = true;
+                txtImageNumber.Text = (_currentIndex + 1).ToString();
                 var fileName = Path.GetFileName(_imagePaths[_currentIndex]);
-                lblStatus.Text = $"{_currentIndex + 1} / {_imagePaths.Count}  —  {fileName}";
+                lblStatus.Text = $"/ {_imagePaths.Count}  —  {fileName}";
             }
         }
 
@@ -115,6 +119,27 @@ namespace FileBrowser
             {
                 _currentIndex++;
                 ShowCurrentImage();
+            }
+        }
+
+        private void TxtImageNumber_KeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+
+                if (int.TryParse(txtImageNumber.Text, out int number)
+                    && number >= 1
+                    && number <= _imagePaths.Count)
+                {
+                    _currentIndex = number - 1;
+                    ShowCurrentImage();
+                }
+                else
+                {
+                    // Revert to the current valid value
+                    txtImageNumber.Text = (_currentIndex + 1).ToString();
+                }
             }
         }
 

@@ -33,6 +33,7 @@
             pictureBox = new PictureBox();
             btnPrevious = new Button();
             btnNext = new Button();
+            txtImageNumber = new TextBox();
             lblStatus = new Label();
             panelTop = new Panel();
             panelBottom = new Panel();
@@ -71,6 +72,7 @@
 
             // panelBottom
             panelBottom.Controls.Add(btnPrevious);
+            panelBottom.Controls.Add(txtImageNumber);
             panelBottom.Controls.Add(lblStatus);
             panelBottom.Controls.Add(btnNext);
             panelBottom.Dock = DockStyle.Bottom;
@@ -89,12 +91,21 @@
             btnPrevious.UseVisualStyleBackColor = true;
             btnPrevious.Click += BtnPrevious_Click;
 
+            // txtImageNumber
+            txtImageNumber.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            txtImageNumber.Location = new Point(96, 10);
+            txtImageNumber.Name = "txtImageNumber";
+            txtImageNumber.Size = new Size(60, 23);
+            txtImageNumber.TextAlign = HorizontalAlignment.Center;
+            txtImageNumber.TabIndex = 2;
+            txtImageNumber.KeyDown += TxtImageNumber_KeyDown;
+
             // lblStatus
             lblStatus.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lblStatus.Location = new Point(96, 8);
+            lblStatus.Location = new Point(164, 8);
             lblStatus.Name = "lblStatus";
-            lblStatus.Size = new Size(832, 28);
-            lblStatus.TextAlign = ContentAlignment.MiddleCenter;
+            lblStatus.Size = new Size(764, 28);
+            lblStatus.TextAlign = ContentAlignment.MiddleLeft;
 
             // btnNext
             btnNext.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
@@ -143,6 +154,7 @@
         private PictureBox pictureBox;
         private Panel panelBottom;
         private Button btnPrevious;
+        private TextBox txtImageNumber;
         private Button btnNext;
         private Label lblStatus;
     }
