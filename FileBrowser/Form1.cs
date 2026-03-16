@@ -6,7 +6,13 @@ namespace FileBrowser
     {
         private static readonly HashSet<string> ImageExtensions = new(StringComparer.OrdinalIgnoreCase)
         {
-            ".jpg", ".jpeg", ".jfif", ".png", ".bmp", ".gif", ".tiff", ".tif", ".webp", ".ico"
+            ".jpg", ".jpeg", ".jfif", ".jpe", ".png", ".bmp", ".dib",
+            ".gif", ".tiff", ".tif", ".webp", ".tga", ".pbm", ".qoi", ".ico"
+        };
+
+        private static readonly HashSet<string> ImageSharpExtensions = new(StringComparer.OrdinalIgnoreCase)
+        {
+            ".webp", ".tga", ".pbm", ".qoi"
         };
 
         private readonly List<string> _imagePaths = [];
@@ -66,7 +72,7 @@ namespace FileBrowser
             var filePath = _imagePaths[_currentIndex];
             MemoryStream ms;
 
-            if (string.Equals(Path.GetExtension(filePath), ".webp", StringComparison.OrdinalIgnoreCase))
+            if (ImageSharpExtensions.Contains(Path.GetExtension(filePath)))
             {
                 ms = new MemoryStream();
                 using var img = SixLabors.ImageSharp.Image.Load(filePath);
