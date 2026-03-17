@@ -41,96 +41,112 @@
             panelTop.SuspendLayout();
             panelBottom.SuspendLayout();
             SuspendLayout();
-
+            // 
+            // txtPath
+            // 
+            txtPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtPath.Location = new Point(8, 10);
+            txtPath.Name = "txtPath";
+            txtPath.PlaceholderText = "Select a folder containing images...";
+            txtPath.ReadOnly = true;
+            txtPath.Size = new Size(1138, 31);
+            txtPath.TabIndex = 0;
+            // 
+            // btnBrowse
+            // 
+            btnBrowse.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnBrowse.Location = new Point(1154, 9);
+            btnBrowse.Name = "btnBrowse";
+            btnBrowse.Size = new Size(100, 35);
+            btnBrowse.TabIndex = 1;
+            btnBrowse.Text = "Browse...";
+            btnBrowse.UseVisualStyleBackColor = true;
+            btnBrowse.Click += BtnBrowse_Click;
+            // 
+            // pictureBox
+            // 
+            pictureBox.BackColor = SystemColors.ControlDark;
+            pictureBox.Dock = DockStyle.Fill;
+            pictureBox.Location = new Point(0, 44);
+            pictureBox.Name = "pictureBox";
+            pictureBox.Size = new Size(1262, 690);
+            pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox.TabIndex = 4;
+            pictureBox.TabStop = false;
+            // 
+            // btnPrevious
+            // 
+            btnPrevious.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnPrevious.Enabled = false;
+            btnPrevious.Location = new Point(8, 8);
+            btnPrevious.Name = "btnPrevious";
+            btnPrevious.Size = new Size(80, 28);
+            btnPrevious.TabIndex = 0;
+            btnPrevious.TabStop = false;
+            btnPrevious.Text = "◀ Prev";
+            btnPrevious.UseVisualStyleBackColor = true;
+            btnPrevious.Click += BtnPrevious_Click;
+            // 
+            // btnNext
+            // 
+            btnNext.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnNext.Enabled = false;
+            btnNext.Location = new Point(1174, 8);
+            btnNext.Name = "btnNext";
+            btnNext.Size = new Size(80, 28);
+            btnNext.TabIndex = 4;
+            btnNext.TabStop = false;
+            btnNext.Text = "Next ▶";
+            btnNext.UseVisualStyleBackColor = true;
+            btnNext.Click += BtnNext_Click;
+            // 
+            // txtImageNumber
+            // 
+            txtImageNumber.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            txtImageNumber.Location = new Point(96, 10);
+            txtImageNumber.Name = "txtImageNumber";
+            txtImageNumber.Size = new Size(60, 31);
+            txtImageNumber.TabIndex = 2;
+            txtImageNumber.TextAlign = HorizontalAlignment.Center;
+            txtImageNumber.KeyDown += TxtImageNumber_KeyDown;
+            // 
+            // lblStatus
+            // 
+            lblStatus.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lblStatus.Location = new Point(164, 8);
+            lblStatus.Name = "lblStatus";
+            lblStatus.Size = new Size(1002, 28);
+            lblStatus.TabIndex = 3;
+            lblStatus.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // panelTop
+            // 
             panelTop.Controls.Add(btnBrowse);
             panelTop.Controls.Add(txtPath);
             panelTop.Dock = DockStyle.Top;
             panelTop.Location = new Point(0, 0);
             panelTop.Name = "panelTop";
             panelTop.Padding = new Padding(8);
-            panelTop.Size = new Size(1024, 44);
-
-            // txtPath
-            txtPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtPath.Location = new Point(8, 10);
-            txtPath.Name = "txtPath";
-            txtPath.ReadOnly = true;
-            txtPath.Size = new Size(900, 23);
-            txtPath.TabIndex = 0;
-            txtPath.PlaceholderText = "Select a folder containing images...";
-
-            // btnBrowse
-            btnBrowse.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnBrowse.Location = new Point(916, 9);
-            btnBrowse.Name = "btnBrowse";
-            btnBrowse.Size = new Size(100, 25);
-            btnBrowse.TabIndex = 1;
-            btnBrowse.Text = "Browse...";
-            btnBrowse.UseVisualStyleBackColor = true;
-            btnBrowse.Click += BtnBrowse_Click;
-
+            panelTop.Size = new Size(1262, 44);
+            panelTop.TabIndex = 6;
+            // 
             // panelBottom
+            // 
             panelBottom.Controls.Add(btnPrevious);
             panelBottom.Controls.Add(txtImageNumber);
             panelBottom.Controls.Add(lblStatus);
             panelBottom.Controls.Add(btnNext);
             panelBottom.Dock = DockStyle.Bottom;
-            panelBottom.Location = new Point(0, 526);
+            panelBottom.Location = new Point(0, 734);
             panelBottom.Name = "panelBottom";
-            panelBottom.Size = new Size(1024, 42);
-
-            // btnPrevious
-            btnPrevious.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            btnPrevious.Enabled = false;
-            btnPrevious.Location = new Point(8, 8);
-            btnPrevious.Name = "btnPrevious";
-            btnPrevious.Size = new Size(80, 28);
-            btnPrevious.TabStop = false;
-            btnPrevious.Text = "◀ Prev";
-            btnPrevious.UseVisualStyleBackColor = true;
-            btnPrevious.Click += BtnPrevious_Click;
-
-            // txtImageNumber
-            txtImageNumber.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            txtImageNumber.Location = new Point(96, 10);
-            txtImageNumber.Name = "txtImageNumber";
-            txtImageNumber.Size = new Size(60, 23);
-            txtImageNumber.TextAlign = HorizontalAlignment.Center;
-            txtImageNumber.TabIndex = 2;
-            txtImageNumber.KeyDown += TxtImageNumber_KeyDown;
-
-            // lblStatus
-            lblStatus.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lblStatus.Location = new Point(164, 8);
-            lblStatus.Name = "lblStatus";
-            lblStatus.Size = new Size(764, 28);
-            lblStatus.TextAlign = ContentAlignment.MiddleLeft;
-
-            // btnNext
-            btnNext.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnNext.Enabled = false;
-            btnNext.Location = new Point(936, 8);
-            btnNext.Name = "btnNext";
-            btnNext.Size = new Size(80, 28);
-            btnNext.TabStop = false;
-            btnNext.Text = "Next ▶";
-            btnNext.UseVisualStyleBackColor = true;
-            btnNext.Click += BtnNext_Click;
-
-            // pictureBox
-            pictureBox.BackColor = SystemColors.ControlDark;
-            pictureBox.Dock = DockStyle.Fill;
-            pictureBox.Location = new Point(0, 44);
-            pictureBox.Name = "pictureBox";
-            pictureBox.Size = new Size(1024, 482);
-            pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox.TabIndex = 4;
-            pictureBox.TabStop = false;
-
+            panelBottom.Size = new Size(1262, 42);
+            panelBottom.TabIndex = 5;
+            // 
             // ImagesForm
+            // 
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1024, 568);
+            ClientSize = new Size(1262, 776);
             Controls.Add(pictureBox);
             Controls.Add(panelBottom);
             Controls.Add(panelTop);
@@ -143,6 +159,7 @@
             panelTop.ResumeLayout(false);
             panelTop.PerformLayout();
             panelBottom.ResumeLayout(false);
+            panelBottom.PerformLayout();
             ResumeLayout(false);
         }
 
