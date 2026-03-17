@@ -1,3 +1,5 @@
+using LibVLCSharp.Shared;
+
 namespace FileBrowser
 {
     public partial class VideosForm : Form
@@ -10,9 +12,28 @@ namespace FileBrowser
         private readonly List<string> _videoPaths = [];
         private int _currentIndex = -1;
 
+        private LibVLC? _libVLC;
+        private MediaPlayer? _mediaPlayer;
+        private readonly System.Windows.Forms.Timer _positionTimer = new() { Interval = 250 };
+        private bool _isSeeking;
+
         public VideosForm()
         {
             InitializeComponent();
+
+            _libVLC = new LibVLC();
+            _mediaPlayer = new MediaPlayer(_libVLC);
+            _mediaPlayer.Volume = trackBarVolume.Value;
+
+            videoView.MediaPlayer = _mediaPlayer;
+
+            _mediaPlayer.Playing += (s, e) => BeginInvoke(OnPlayerStateChanged);
+            _mediaPlayer.Paused += (s, e) => BeginInvoke(OnPlayerStateChanged);
+            _mediaPlayer.Stopped += (s, e) => BeginInvoke(OnPlayerStopped);
+            _mediaPlayer.EndReached += (s, e) => BeginInvoke(OnPlayerStopped);
+
+            _positionTimer.Tick += PositionTimer_Tick;
+            _positionTimer.Start();
         }
 
         private void BtnBrowse_Click(object? sender, EventArgs e)
@@ -32,6 +53,8 @@ namespace FileBrowser
 
         private void LoadVideos(string folderPath)
         {
+            StopPlayback();
+
             _videoPaths.Clear();
             _currentIndex = -1;
             listBoxVideos.Items.Clear();
@@ -72,6 +95,111 @@ namespace FileBrowser
             }
         }
 
+        private void PlayVideo(string filePath)
+        {
+            if (_libVLC is null || _mediaPlayer is null)
+                return;
+
+            var media = new Media(_libVLC, filePath);
+            _mediaPlayer.Play(media);
+            media.Dispose();
+
+            btnPlay.Enabled = true;
+            btnStop.Enabled = true;
+            btnPlay.Text = "⏸ Pause";
+        }
+
+        private void StopPlayback()
+        {
+            if (_mediaPlayer is null)
+                return;
+
+            if (_mediaPlayer.IsPlaying)
+                _mediaPlayer.Stop();
+
+            btnPlay.Text = "▶ Play";
+            btnPlay.Enabled = _currentIndex >= 0;
+            btnStop.Enabled = false;
+            trackBarSeek.Value = 0;
+            lblTime.Text = "00:00 / 00:00";
+        }
+
+        private void BtnPlay_Click(object? sender, EventArgs e)
+        {
+            if (_mediaPlayer is null)
+                return;
+
+            if (_mediaPlayer.IsPlaying)
+            {
+                _mediaPlayer.Pause();
+            }
+            else if (_mediaPlayer.Media is not null)
+            {
+                _mediaPlayer.Play();
+            }
+            else if (_currentIndex >= 0 && _currentIndex < _videoPaths.Count)
+            {
+                PlayVideo(_videoPaths[_currentIndex]);
+            }
+        }
+
+        private void BtnStop_Click(object? sender, EventArgs e)
+        {
+            StopPlayback();
+        }
+
+        private void TrackBarSeek_Scroll(object? sender, EventArgs e)
+        {
+            if (_mediaPlayer is null || !_mediaPlayer.IsPlaying)
+                return;
+
+            _isSeeking = true;
+            _mediaPlayer.Position = trackBarSeek.Value / 1000f;
+            _isSeeking = false;
+        }
+
+        private void TrackBarVolume_Scroll(object? sender, EventArgs e)
+        {
+            if (_mediaPlayer is not null)
+                _mediaPlayer.Volume = trackBarVolume.Value;
+        }
+
+        private void PositionTimer_Tick(object? sender, EventArgs e)
+        {
+            if (_mediaPlayer is null || !_mediaPlayer.IsPlaying || _isSeeking)
+                return;
+
+            var pos = _mediaPlayer.Position;
+            var len = _mediaPlayer.Length;
+
+            if (pos >= 0 && len > 0)
+            {
+                trackBarSeek.Value = Math.Clamp((int)(pos * 1000), 0, 1000);
+
+                var current = TimeSpan.FromMilliseconds(pos * len);
+                var total = TimeSpan.FromMilliseconds(len);
+                lblTime.Text = $"{current:mm\\:ss} / {total:mm\\:ss}";
+            }
+        }
+
+        private void OnPlayerStateChanged()
+        {
+            if (_mediaPlayer is null)
+                return;
+
+            btnPlay.Text = _mediaPlayer.IsPlaying ? "⏸ Pause" : "▶ Play";
+            btnStop.Enabled = true;
+        }
+
+        private void OnPlayerStopped()
+        {
+            btnPlay.Text = "▶ Play";
+            btnPlay.Enabled = _currentIndex >= 0;
+            btnStop.Enabled = false;
+            trackBarSeek.Value = 0;
+            lblTime.Text = "00:00 / 00:00";
+        }
+
         private void BtnPrevious_Click(object? sender, EventArgs e)
         {
             if (_currentIndex > 0)
@@ -105,12 +233,7 @@ namespace FileBrowser
         {
             if (_currentIndex >= 0 && _currentIndex < _videoPaths.Count)
             {
-                var filePath = _videoPaths[_currentIndex];
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName = filePath,
-                    UseShellExecute = true
-                });
+                PlayVideo(_videoPaths[_currentIndex]);
             }
         }
 
@@ -126,6 +249,29 @@ namespace FileBrowser
                     BtnNext_Click(sender, e);
                     e.Handled = true;
                     break;
+                case Keys.Space:
+                    BtnPlay_Click(sender, e);
+                    e.Handled = true;
+                    break;
+            }
+        }
+
+        private void VideosForm_FormClosing(object? sender, FormClosingEventArgs e)
+        {
+            _positionTimer.Stop();
+            _positionTimer.Dispose();
+
+            if (_mediaPlayer is not null)
+            {
+                _mediaPlayer.Stop();
+                _mediaPlayer.Dispose();
+                _mediaPlayer = null;
+            }
+
+            if (_libVLC is not null)
+            {
+                _libVLC.Dispose();
+                _libVLC = null;
             }
         }
     }

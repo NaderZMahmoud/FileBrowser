@@ -34,9 +34,11 @@ The application opens with a **Main Form** that lets you launch dedicated browse
 
 - **Folder Selection** — Use the Browse button to pick any folder on your system.
 - **Recursive Scanning** — Automatically discovers videos in the selected folder and all its subfolders.
-- **Video List** — Displays discovered video file names in a list.
+- **Split View** — Video list on the left, built-in player on the right.
+- **Internal Player** — Play videos directly inside the application using [LibVLCSharp](https://github.com/videolan/libvlcsharp).
+- **Playback Controls** — Play/Pause, Stop, seek bar, time display, and volume slider.
 - **Video Navigation** — Navigate through the list using Previous/Next buttons or the Left/Right arrow keys.
-- **Playback** — Double-click a video to open it in your system's default media player.
+- **Double-Click to Play** — Double-click any video in the list to start playback.
 - **Status Display** — Shows the current video index, total count, and file name.
 
 ## Supported Formats
@@ -72,7 +74,7 @@ The application opens with a **Main Form** that lets you launch dedicated browse
 | M4V    | `.m4v`         |
 | MPEG   | `.mpg`, `.mpeg`|
 
-> **Note:** Videos are played using the operating system's default media player via shell execution.
+> **Note:** Video playback is powered by [LibVLCSharp](https://github.com/videolan/libvlcsharp) with bundled LibVLC native libraries — no external software is required.
 
 ## Prerequisites
 
@@ -97,7 +99,9 @@ dotnet run --project FileBrowser
 
 ### Videos Browser
 
-| Key          | Action         |
-|--------------|----------------|
-| Left arrow   | Previous video |
-| Right arrow  | Next video     |
+| Key          | Action                                   |
+|--------------|------------------------------------------|
+| Left arrow   | Previous video                           |
+| Right arrow  | Next video                               |
+| Space        | Play / Pause                             |
+| Double-click | Play selected video in internal player   |
