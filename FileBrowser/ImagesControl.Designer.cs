@@ -1,6 +1,6 @@
-﻿namespace FileBrowser
+namespace FileBrowser
 {
-    partial class ImagesForm
+    partial class ImagesControl
     {
         /// <summary>
         ///  Required designer variable.
@@ -20,7 +20,7 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
         /// <summary>
         ///  Required method for Designer support - do not modify
@@ -142,19 +142,15 @@
             panelBottom.Size = new Size(1262, 42);
             panelBottom.TabIndex = 5;
             // 
-            // ImagesForm
+            // ImagesControl
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1262, 776);
             Controls.Add(pictureBox);
             Controls.Add(panelBottom);
             Controls.Add(panelTop);
-            KeyPreview = true;
-            MinimumSize = new Size(640, 480);
-            Name = "ImagesForm";
-            Text = "Photo Browser";
-            KeyDown += ImagesForm_KeyDown;
+            Name = "ImagesControl";
+            Size = new Size(1262, 776);
             ((System.ComponentModel.ISupportInitialize)pictureBox).EndInit();
             panelTop.ResumeLayout(false);
             panelTop.PerformLayout();

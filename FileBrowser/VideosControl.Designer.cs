@@ -1,6 +1,6 @@
 namespace FileBrowser
 {
-    partial class VideosForm
+    partial class VideosControl
     {
         /// <summary>
         ///  Required designer variable.
@@ -13,14 +13,15 @@ namespace FileBrowser
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing)
             {
-                components.Dispose();
+                CleanupPlayer();
+                components?.Dispose();
             }
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
         /// <summary>
         ///  Required method for Designer support - do not modify
@@ -262,20 +263,15 @@ namespace FileBrowser
             trackBarVolume.Value = 75;
             trackBarVolume.Scroll += TrackBarVolume_Scroll;
             // 
-            // VideosForm
+            // VideosControl
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1338, 854);
             Controls.Add(splitContainer);
             Controls.Add(panelBottom);
             Controls.Add(panelTop);
-            KeyPreview = true;
-            MinimumSize = new Size(800, 550);
-            Name = "VideosForm";
-            Text = "Video Browser";
-            FormClosing += VideosForm_FormClosing;
-            KeyDown += VideosForm_KeyDown;
+            Name = "VideosControl";
+            Size = new Size(1338, 854);
             panelTop.ResumeLayout(false);
             panelTop.PerformLayout();
             panelBottom.ResumeLayout(false);

@@ -2,7 +2,7 @@ using SixLabors.ImageSharp;
 
 namespace FileBrowser
 {
-    public partial class ImagesForm : Form
+    public partial class ImagesControl : UserControl
     {
         private static readonly HashSet<string> ImageExtensions = new(StringComparer.OrdinalIgnoreCase)
         {
@@ -18,7 +18,7 @@ namespace FileBrowser
         private readonly List<string> _imagePaths = [];
         private int _currentIndex = -1;
 
-        public ImagesForm()
+        public ImagesControl()
         {
             InitializeComponent();
         }
@@ -149,18 +149,18 @@ namespace FileBrowser
             }
         }
 
-        private void ImagesForm_KeyDown(object? sender, KeyEventArgs e)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            switch (e.KeyCode)
+            switch (keyData)
             {
                 case Keys.Left:
-                    BtnPrevious_Click(sender, e);
-                    e.Handled = true;
-                    break;
+                    BtnPrevious_Click(this, EventArgs.Empty);
+                    return true;
                 case Keys.Right:
-                    BtnNext_Click(sender, e);
-                    e.Handled = true;
-                    break;
+                    BtnNext_Click(this, EventArgs.Empty);
+                    return true;
+                default:
+                    return base.ProcessCmdKey(ref msg, keyData);
             }
         }
     }

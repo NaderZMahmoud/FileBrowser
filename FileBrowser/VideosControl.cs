@@ -2,7 +2,7 @@ using LibVLCSharp.Shared;
 
 namespace FileBrowser
 {
-    public partial class VideosForm : Form
+    public partial class VideosControl : UserControl
     {
         private static readonly HashSet<string> VideoExtensions = new(StringComparer.OrdinalIgnoreCase)
         {
@@ -17,7 +17,7 @@ namespace FileBrowser
         private readonly System.Windows.Forms.Timer _positionTimer = new() { Interval = 250 };
         private bool _isSeeking;
 
-        public VideosForm()
+        public VideosControl()
         {
             InitializeComponent();
 
@@ -27,10 +27,10 @@ namespace FileBrowser
 
             videoView.MediaPlayer = _mediaPlayer;
 
-            _mediaPlayer.Playing += (s, e) => BeginInvoke(OnPlayerStateChanged);
-            _mediaPlayer.Paused += (s, e) => BeginInvoke(OnPlayerStateChanged);
-            _mediaPlayer.Stopped += (s, e) => BeginInvoke(OnPlayerStopped);
-            _mediaPlayer.EndReached += (s, e) => BeginInvoke(OnPlayerStopped);
+            _mediaPlayer.Playing += (s, e) => { if (IsHandleCreated && !IsDisposed) BeginInvoke(OnPlayerStateChanged); };
+            _mediaPlayer.Paused += (s, e) => { if (IsHandleCreated && !IsDisposed) BeginInvoke(OnPlayerStateChanged); };
+            _mediaPlayer.Stopped += (s, e) => { if (IsHandleCreated && !IsDisposed) BeginInvoke(OnPlayerStopped); };
+            _mediaPlayer.EndReached += (s, e) => { if (IsHandleCreated && !IsDisposed) BeginInvoke(OnPlayerStopped); };
 
             _positionTimer.Tick += PositionTimer_Tick;
             _positionTimer.Start();
@@ -237,26 +237,25 @@ namespace FileBrowser
             }
         }
 
-        private void VideosForm_KeyDown(object? sender, KeyEventArgs e)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            switch (e.KeyCode)
+            switch (keyData)
             {
                 case Keys.Left:
-                    BtnPrevious_Click(sender, e);
-                    e.Handled = true;
-                    break;
+                    BtnPrevious_Click(this, EventArgs.Empty);
+                    return true;
                 case Keys.Right:
-                    BtnNext_Click(sender, e);
-                    e.Handled = true;
-                    break;
+                    BtnNext_Click(this, EventArgs.Empty);
+                    return true;
                 case Keys.Space:
-                    BtnPlay_Click(sender, e);
-                    e.Handled = true;
-                    break;
+                    BtnPlay_Click(this, EventArgs.Empty);
+                    return true;
+                default:
+                    return base.ProcessCmdKey(ref msg, keyData);
             }
         }
 
-        private void VideosForm_FormClosing(object? sender, FormClosingEventArgs e)
+        public void CleanupPlayer()
         {
             _positionTimer.Stop();
             _positionTimer.Dispose();

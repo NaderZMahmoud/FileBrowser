@@ -28,59 +28,86 @@ namespace FileBrowser
         /// </summary>
         private void InitializeComponent()
         {
-            btnImages = new Button();
-            btnVideos = new Button();
-            lblTitle = new Label();
+            tabControl = new TabControl();
+            tabImages = new TabPage();
+            imagesControl = new ImagesControl();
+            tabVideos = new TabPage();
+            videosControl = new VideosControl();
+            tabControl.SuspendLayout();
+            tabImages.SuspendLayout();
+            tabVideos.SuspendLayout();
             SuspendLayout();
-
-            // lblTitle
-            lblTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            lblTitle.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            lblTitle.Location = new Point(0, 30);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(400, 40);
-            lblTitle.TabIndex = 0;
-            lblTitle.Text = "File Browser";
-            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
-
-            // btnImages
-            btnImages.Font = new Font("Segoe UI", 12F);
-            btnImages.Location = new Point(50, 100);
-            btnImages.Name = "btnImages";
-            btnImages.Size = new Size(300, 60);
-            btnImages.TabIndex = 1;
-            btnImages.Text = "🖼️  Browse Images";
-            btnImages.UseVisualStyleBackColor = true;
-            btnImages.Click += BtnImages_Click;
-
-            // btnVideos
-            btnVideos.Font = new Font("Segoe UI", 12F);
-            btnVideos.Location = new Point(50, 180);
-            btnVideos.Name = "btnVideos";
-            btnVideos.Size = new Size(300, 60);
-            btnVideos.TabIndex = 2;
-            btnVideos.Text = "🎬  Browse Videos";
-            btnVideos.UseVisualStyleBackColor = true;
-            btnVideos.Click += BtnVideos_Click;
-
+            // 
+            // tabControl
+            // 
+            tabControl.Controls.Add(tabImages);
+            tabControl.Controls.Add(tabVideos);
+            tabControl.Dock = DockStyle.Fill;
+            tabControl.Font = new Font("Segoe UI", 11F);
+            tabControl.Location = new Point(0, 0);
+            tabControl.Name = "tabControl";
+            tabControl.SelectedIndex = 0;
+            tabControl.Size = new Size(1264, 801);
+            tabControl.TabIndex = 0;
+            // 
+            // tabImages
+            // 
+            tabImages.Controls.Add(imagesControl);
+            tabImages.Location = new Point(4, 39);
+            tabImages.Name = "tabImages";
+            tabImages.Size = new Size(1256, 758);
+            tabImages.TabIndex = 0;
+            tabImages.Text = "🖼️  Images";
+            tabImages.UseVisualStyleBackColor = true;
+            // 
+            // imagesControl
+            // 
+            imagesControl.Dock = DockStyle.Fill;
+            imagesControl.Location = new Point(0, 0);
+            imagesControl.Name = "imagesControl";
+            imagesControl.Size = new Size(1256, 758);
+            imagesControl.TabIndex = 0;
+            // 
+            // tabVideos
+            // 
+            tabVideos.Controls.Add(videosControl);
+            tabVideos.Location = new Point(4, 39);
+            tabVideos.Name = "tabVideos";
+            tabVideos.Size = new Size(1256, 758);
+            tabVideos.TabIndex = 1;
+            tabVideos.Text = "🎬  Videos";
+            tabVideos.UseVisualStyleBackColor = true;
+            // 
+            // videosControl
+            // 
+            videosControl.Dock = DockStyle.Fill;
+            videosControl.Location = new Point(0, 0);
+            videosControl.Name = "videosControl";
+            videosControl.Size = new Size(1256, 758);
+            videosControl.TabIndex = 0;
+            // 
             // MainForm
+            // 
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(400, 280);
-            Controls.Add(lblTitle);
-            Controls.Add(btnImages);
-            Controls.Add(btnVideos);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            MaximizeBox = false;
+            ClientSize = new Size(1264, 801);
+            Controls.Add(tabControl);
+            MinimumSize = new Size(800, 550);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "File Browser";
+            tabControl.ResumeLayout(false);
+            tabImages.ResumeLayout(false);
+            tabVideos.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Label lblTitle;
-        private Button btnImages;
-        private Button btnVideos;
+        private TabControl tabControl;
+        private TabPage tabImages;
+        private ImagesControl imagesControl;
+        private TabPage tabVideos;
+        private VideosControl videosControl;
     }
 }

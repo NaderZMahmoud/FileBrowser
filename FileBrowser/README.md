@@ -2,24 +2,23 @@
 
 A lightweight Windows desktop application for browsing images and videos. Built with **Windows Forms** on **.NET 10**.
 
-The application opens with a **Main Form** that lets you launch dedicated browsers for images or videos.
+The application uses a **tabbed interface** — switch between the Images and Videos browsers without opening separate windows.
 
 ## Application Structure
 
-| Form | Purpose |
-|------|---------|
-| **MainForm** | Launcher with buttons to open the Images or Videos browser |
-| **ImagesForm** | Browse and view images from a selected folder |
-| **VideosForm** | Browse and play videos from a selected folder |
+| Component | Type | Purpose |
+|-----------|------|---------|
+| **MainForm** | Form | Main window with a `TabControl` hosting both browsers |
+| **ImagesControl** | UserControl | Browse and view images from a selected folder |
+| **VideosControl** | UserControl | Browse and play videos from a selected folder |
 
 ## Features
 
 ### Main Form
 
-- Central launcher for the application.
-- **Browse Images** button — opens the image browser.
-- **Browse Videos** button — opens the video browser.
-- Multiple browser windows can be open at the same time.
+- Single-window application with a tabbed layout.
+- **🖼️ Images** tab — embedded image browser.
+- **🎬 Videos** tab — embedded video browser with built-in player.
 
 ### Images Browser
 
